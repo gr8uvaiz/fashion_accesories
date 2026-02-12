@@ -5,6 +5,8 @@ import { createOrder, verifyPayment } from "../src/services/paymentService";
 import axios from "axios";
 import { toast } from "sonner";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 declare global {
   interface Window {
     Razorpay: any;
@@ -55,12 +57,9 @@ const Checkout: React.FC<{ items: CartItem[] }> = ({ items }) => {
         return;
       }
 
-      const response = await axios.get(
-        "http://localhost:5000/api/profile/addresses",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      const response = await axios.get(`${API_URL}/profile/addresses`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       if (response.data.success) {
         const addressList = response.data.addresses;

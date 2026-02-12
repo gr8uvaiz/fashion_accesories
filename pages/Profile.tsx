@@ -5,6 +5,8 @@ import ConfirmDialog from "../src/components/ConfirmDialog";
 import axios from "axios";
 import { toast } from "sonner";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 interface ProfileData {
   name: string;
   email: string;
@@ -69,7 +71,7 @@ const Profile: React.FC = () => {
   const fetchProfile = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:5000/api/profile", {
+      const response = await axios.get(`${API_URL}/profile`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -101,12 +103,9 @@ const Profile: React.FC = () => {
   const fetchAddresses = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get(
-        "http://localhost:5000/api/profile/addresses",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      const response = await axios.get(`${API_URL}/profile/addresses`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       if (response.data.success) {
         setAddresses(response.data.addresses);
@@ -151,13 +150,9 @@ const Profile: React.FC = () => {
       setIsSaving(true);
       const token = localStorage.getItem("token");
 
-      const response = await axios.put(
-        "http://localhost:5000/api/profile",
-        profileData,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      const response = await axios.put(`${API_URL}/profile`, profileData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       if (response.data.success) {
         toast.success("Profile updated successfully!");
@@ -177,7 +172,7 @@ const Profile: React.FC = () => {
       if (editingAddress) {
         // Update existing address
         const response = await axios.put(
-          `http://localhost:5000/api/profile/addresses/${editingAddress._id}`,
+          `${API_URL}/profile/addresses/${editingAddress._id}`,
           addressData,
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -193,7 +188,7 @@ const Profile: React.FC = () => {
       } else {
         // Add new address
         const response = await axios.post(
-          "http://localhost:5000/api/profile/addresses",
+          `${API_URL}/profile/addresses`,
           addressData,
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -222,7 +217,7 @@ const Profile: React.FC = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.delete(
-        `http://localhost:5000/api/profile/addresses/${confirmDialog.addressId}`,
+        `${API_URL}/profile/addresses/${confirmDialog.addressId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         },
@@ -244,7 +239,7 @@ const Profile: React.FC = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.put(
-        `http://localhost:5000/api/profile/addresses/${addressId}/default`,
+        `${API_URL}/profile/addresses/${addressId}/default`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
