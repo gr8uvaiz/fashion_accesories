@@ -1,0 +1,5 @@
+{
+  "name": "Fashion Accessories",
+  "description": "A high-end e-commerce platform for fashion accessories featuring a direct-to-WhatsApp ordering system and a robust admin management dashboard.",
+  "requestFramePermissions": ["camera"]
+}
